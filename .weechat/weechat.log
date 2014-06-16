@@ -1,0 +1,23 @@
+[2014-06-14 17:55:18] WeeChat 1.0-dev (git: v0.4.3-570-g11f55cf) (compiled on Jun  5 2014 07:19:10)
+[2014-06-14 17:55:18] Reading configuration file sec.conf
+[2014-06-14 17:55:18] Reading configuration file weechat.conf
+[2014-06-14 17:55:18] Reading configuration file plugins.conf
+[2014-06-14 17:55:18] Reading configuration file logger.conf
+[2014-06-14 17:55:18] Reading configuration file xfer.conf
+[2014-06-14 17:55:18] Reading configuration file irc.conf
+[2014-06-14 17:55:18] Reading configuration file exec.conf
+[2014-06-14 17:55:18] Reading configuration file relay.conf
+[2014-06-14 17:55:18] Reading configuration file script.conf
+[2014-06-14 17:55:18] Reading configuration file buffers.conf
+[2014-06-14 17:55:18] Reading configuration file iset.conf
+[2014-06-14 17:55:18] Reading configuration file trigger.conf
+[2014-06-14 17:55:18] Reading configuration file aspell.conf
+[2014-06-14 17:55:18] Reading configuration file alias.conf
+[2014-06-14 17:55:18] Reading configuration file charset.conf
+[2014-06-14 17:55:21] irc: connecting to server irc.freenode.net/6667...
+[2014-06-15 12:08:19] Signal SIGTERM received, exiting WeeChat...
+[2014-06-15 12:08:19] Writing configuration file plugins.conf
+[2014-06-15 12:08:19] Writing configuration file charset.conf
+[2014-06-15 12:08:19] Writing configuration file alias.conf
+[2014-06-15 12:08:19] Writing configuration file aspell.conf
+[2014-06-15 12:08:19] Writing configuration file trigger.conf
