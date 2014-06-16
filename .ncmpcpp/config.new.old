@@ -1,0 +1,57 @@
+#
+# MPD
+#
+
+# Use DBus.
+mpd_communication_mode = "notifications"
+
+#
+# Interface
+#
+
+# Use the 'alternative' interface.
+user_interface = "alternative"
+
+# Center the cursor.
+autocenter_mode = "yes"
+centered_cursor = "yes"
+
+# Use a prettier progress bar.
+progressbar_look = "=]-"
+
+# Unclutter!
+titles_visibility = "no"
+header_visibility = "yes"
+display_volume_level = "yes"
+display_bitrate = "yes"
+display_remaining_time = "yes"
+
+# Display the songs in columns.
+playlist_display_mode = "columns"
+browser_display_mode = "columns"
+
+
+#
+# Tag Editor
+#
+
+mpd_music_dir = "~/Music"
+
+#
+# Visualizer
+#
+
+# Visualizer
+visualizer_in_stereo = "yes
+visualizer_fifo_path = "/tmp/mpd.fifo"
+visualizer_output_name = "my_fifo"
+visualizer_sync_interval = "1"
+visualizer_type = "spectrum"
+visualizer_look = "◆▋"
+
+#
+# Search
+#
+
+# Ignore 'the' when sorting.
+ignore_leading_the = "yes"
