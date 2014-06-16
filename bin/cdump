@@ -1,0 +1,22 @@
+#!/bin/sh
+
+FILE=$HOME/etc/Xresources
+
+for NUM in {0..7}; do
+      CN=$(grep "^\*color${NUM}:" $FILE | cut -d':' -f2 | tr -d ' ')
+      echo -en "\e[0;3${NUM}m$CN\e[m "
+done
+echo
+for NUM in {0..7}; do
+      echo -en "\e[0;3${NUM}m▉▉▉▉▉▉▉\e[m "
+done
+echo
+for NUM in {0..7}; do
+      echo -en "\e[1;3${NUM}m▉▉▉▉▉▉▉\e[m "
+done
+echo
+for NUM in {0..7}; do
+    CN=$(grep "^\*color$((${NUM}+8)):" $FILE| cut -d':' -f2 | tr -d ' ')
+    echo -en "\e[1;3${NUM}m$CN\e[m "
+done
+echo

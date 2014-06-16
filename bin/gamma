@@ -1,0 +1,24 @@
+#!/bin/sh
+
+usage () {
+    echo "usage: `basename $0` <get|up|down|reset> [value]"
+}
+
+test "$#" -lt 1 && usage && exit
+test -n "$2" && amount=$2 || amount=0.1
+
+gamma=`grep RedGamma ~/.nvidia| cut -d= -f2`
+old=$gamma
+
+case $1 in
+    get)  echo $gamma; exit ;;
+    up)   gamma=`bc <<< "$gamma + $amount"` ;;
+    down) gamma=`bc <<< "$gamma - $amount"` ;;
+    reset)gamma="1.000000" ;;
+    *) usage && exit ;;
+esac
+
+echo "$old -> $gamma"
+
+nvidia-settings -a [DPY:DVI-I-0]/Gamma=$gamma >/dev/null
+sed -i "/Gamma/s/$old/$gamma/" ~/.nvidia

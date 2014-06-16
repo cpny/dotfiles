@@ -1,0 +1,133 @@
+#!/bin/sh
+#
+# z3bra - (c) wtfpl 2014
+# Create a small popup with the given text
+
+TEXT='none'
+SLEEP=3
+
+# bar options
+font='-*-stlarch-medium-r-*-*-10-*-*-*-*-*-*-*'
+font="$font,-*-gohufont-medium-*-*--11-*-*-*-*-*-iso10646-1"
+bg="#00000000"
+fg="#ffffffff"
+hl="#ff333333"
+
+IFS=' x' read x y <<< `xrandr | grep '*' | sed 1q | awk '{print $1}'`
+
+width=144
+height=20
+offx=$(( x/2 - $width - 74 ))
+offx=740
+offy=10
+
+geom=${width}x${height}+${offx}+${offy}
+
+usage() {
+    echo "`basename $0` [-hb] [-d delay] [-g WxH+X+Y] [TEXT]"
+}
+
+spawn() {
+    prefix='%{F#fffffe00}  %{F-}'
+    (echo "%{l}${prefix} $@";sleep $SLEEP) | bar -g $geom -f $font -B $bg -F $fg
+}
+
+loop() {
+    (while :; do
+        echo "%{c}`$1`"
+        sleep $SLEEP
+    done) | bar -g $geom -f $font -B $bg -F $fg
+}
+
+getvol() {
+    vol=`amixer sget Master |
+    sed -n 's/^.*\[\([0-9/]*%\)\].*\[\(o[nf]\+\)\]$/\1 (\2)/p' |
+    uniq`
+    case $1 in
+        value) echo $vol | sed 's/%.*$//' ;;
+        state) echo $vol | sed -n 's/^.*(\([onf]*\))/\1/p' ;;
+        *) echo $vol ;;
+    esac
+}
+
+volume() {
+    test "`getvol state`" = "off" && echo -n "muted - "
+    echo -n "`getvol value`%%"
+}
+
+volumebar() {
+    max=10
+    cur=$((`getvol value` / max))
+
+    test "`getvol state`" = "off" && fg='#ffd43f10'
+
+    for v in $(seq 1 $((max - 1))); do
+        if [ "$v" -lt "$cur" ]; then
+             val="$val%{F${fg}}──"
+         else
+             val="$val%{F${hl}}──"
+        fi
+    done
+
+    echo -n "${val}"
+}
+
+battery() {
+    BATC=`cat /sys/class/power_supply/BAT1/capacity`
+    BATS=`cat /sys/class/power_supply/BAT1/status`
+    echo "$BATC%% ($BATS)"
+}
+
+mail() {
+    echo "`fcount ~/var/mail/INBOX/new` new mail!"
+}
+
+date() {
+    date "+%d/%m/%y \(%H:%M\)"
+}
+
+group() {
+    cur=`xprop -root _NET_CURRENT_DESKTOP | awk '{print $3}'`
+    num=`xprop -root _NET_NUMBER_OF_DESKTOPS | awk '{print $3}'`
+
+    val=''
+
+    for w in $(seq 1 $((num - 1))); do
+        if [ "$w" -eq "$cur" ]; then
+             val="$val%{F${fg}}━━"
+         else
+             val="$val%{F${hl}}━━"
+        fi
+    done
+
+    echo -n "${val}"
+}
+
+test "$#" -lt 1 && exit 1
+
+while getopts ":bd:g:hl" opt; do
+    case $opt in
+        b) BEEP=1        ;;
+        l) LOOP=1        ;;
+        d) SLEEP=$OPTARG ;;
+        g) geom=$OPTARG  ;;
+        h) usage; exit 0 ;;
+        *) usage; exit 1 ;;
+    esac
+done
+
+shift $(( OPTIND - 1 ));
+
+case $1 in
+    volumebar|volume|battery|mail|date|group)
+        TEXT=`$1`
+        FUNC="$1" ;;
+    *)
+        TEXT="$@" 
+        FUNC="echo $TEXT"
+        ;;
+esac
+
+# that beep can be *REALLY* annoying
+test -n "$BEEP" && beep -f 1500 -d 20 -l 100
+test -n "$LOOP" && loop "$FUNC" || spawn "$TEXT"

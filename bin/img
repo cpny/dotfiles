@@ -1,0 +1,7 @@
+#!/bin/sh
+
+IMAGE=/tmp/`basename $1`
+echo "Downloading image.."
+curl -s "$1" > $IMAGE
+meh $IMAGE
+rm $IMAGE

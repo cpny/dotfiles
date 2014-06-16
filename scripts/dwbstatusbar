@@ -1,0 +1,133 @@
+# ~/bin/dwm-statusbar
+# Adapted from w0ng status bar: https://github.com/w0ng/bin
+# Adapted from jasonwryan status bar: 
+https://bitbucket.org/jasonwryan/shiv/src/1ad5950c3108a4e5a9dcb78888a1ccfeb9252b45/Scripts/dwm-status?at=default
+# Some original work/modifications by frank: https://github.com/frank604
+
+# Colour codes from dwm/config.h
+color0="\x01" # normal  
+color6="\x06" # brightblue
+
+
+#---separator                              
+sp="$(echo -ne "${color0} ")" 
+sp1="$(echo -ne "${color0} | ")" 
+sp2="$(echo -ne "${color0}| ")"
+sp3="$(echo -ne "${color0}|")"
+
+#print_song_info() {
+#  track="$(mpc current)"
+#  artist="${track%%- *}"
+#  title="${track##*- }"
+#  [[ -n "$artist" ]] && echo -e 
+"${color0}ê${sp}${color5}${artist}${color9}${title} ${color0}|"
+#}
+
+print_power() {
+  status="$(cat /sys/class/power_supply/ADP1/online)"
+  battery="$(cat /sys/class/power_supply/BAT0/capacity)"
+  if [ "${status}" == 1 ]; then
+    echo -ne "${color6}Â${color0}ON ${battery}%"
+  else
+    echo -ne "${color6}ð${color0}${battery}%"
+  fi
+}
+
+print_wifiqual() {
+  wifiessid="$(/sbin/iwconfig 2>/dev/null | grep ESSID | cut -d: -f2)"
+  wifiawk="$(echo $wifiessid | awk -F',' '{gsub(/"/, "", $1); print 
+$1}')"
+  wificut="$(echo $wifiawk | cut -d' ' -f1)"
+  echo -ne "${color6}¤${color0}${wificut}"
+}
+
+print_hddfree() {
+  hddfree="$(df -Ph /dev/sda4 | awk '$3 ~ /[0-9]+/ {print $4}')"
+  echo -ne "${color6}¨${color0}${hddfree}"
+}
+
+print_email_count() {
+   mail1="$(find $HOME/Mail/FWS/INBOX/new/ -type f | wc -l)"
+   mail2="$(find $HOME/Mail/GMAIL/INBOX/new/ -type f | wc -l)"
+   emailcount="$(($mail1 + $mail2))"
+    if [[ "${emailcount}" -eq 0 ]]; then
+        echo -en "${color6}Ð${color0}0"
+    else
+        echo -en "${color6}Ð${color0}${emailcount}"
+    fi
+}
+print_pacup(){
+   pup="$(pacman -Qqu --dbpath /tmp/checkup-db/frank604/ | wc -l)"
+   if [[ "${pup}" -eq 0 ]]; then
+        echo -en "${color0}0"
+   else
+        echo -en "${color0}${pup}"
+   fi
+}
+
+print_aurups(){
+    ups="$(awk '$0 !~ /tamsyn/' /tmp/aurupdates* | wc -l)"
+    if [[ "${ups}" -eq 0 ]]; then
+        echo -en "${color0}0"
+    else 
+        echo -en "${color0}${ups}"
+    fi
+}
+
+print_aurphans(){
+    aur="$(awk '$0 !~ /^No /' /tmp/aurphans* | wc -l)"
+    if [[ "${aur}" -gt 0 ]]; then
+        echo -en "∆"
+    else 
+        echo -en ""
+    fi
+}
+ print_volume(){
+    mix=`amixer get Master | tail -1`
+    vol="$(amixer get Master | tail -n1 | sed -r 's/.*\[(.*)%\].*/\1/')"
+    if [[ $mix == *\[off\]* ]]; then
+      #red 2                                                
+      echo -e "${color6}í${color2} OFF"
+    elif [[ $mix == *\[on\]* ]]; then
+      #green 9
+      echo -e "${color6}í${color0}${vol}% "
+    else
+      #yellow6
+      echo -e "${color6}í${color2} ---"
+    fi
+ }
+
+
+print_datetime() {
+  datetime="$(date "+%a %d %b %I:%M")"
+  echo -ne "${color6}É${sp}${color0}${datetime}"
+}
+
+# cpu (from: https://bbs.archlinux.org/viewtopic.php?pid=661641#p661641)
+
+while true; do
+  # get new cpu idle and total usage
+  eval $(awk '/^cpu /{print "cpu_idle_now=" $5 "; cpu_total_now=" 
+$2+$3+$4+$5 }' /proc/stat)
+  cpu_interval=$((cpu_total_now-${cpu_total_old:-0}))
+  # calculate cpu usage (%)
+  let cpu_used="100 * ($cpu_interval - 
+($cpu_idle_now-${cpu_idle_old:-0})) / $cpu_interval"
+
+  # output vars
+print_cpu_used() {
+  printf "%-1b" "${color0}Ñ${sp}${color11}${cpu_used}%"
+#"%-10b" "${color7}CPU:${cpu_used}%"
+}
+ 
+  # Pipe to status bar, not indented due to printing extra spaces/tabs
+  xsetroot -name "$(print_power)${sp1}$(print_wifiqual)$(print_hddfree)${sp1}$(print_email_count)$(print_pacup)$(print_aurups)$(print_aurphans)${sp2}$(print_volume)${sp2}$(print_datetime)"
+
+  # reset old rates
+  cpu_idle_old=$cpu_idle_now
+  cpu_total_old=$cpu_total_now
+  # loop stats every 1 second
+  sleep 1 
+ done
+ 
+

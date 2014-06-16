@@ -1,0 +1,19 @@
+#!/bin/sh
+X=1790
+Y=820
+
+if which xdpyinfo >/dev/null; then
+    dimensions=`xdpyinfo -ext XINERAMA | grep 'head #0' | sed 's/^  head #//p'`
+
+    IFS=' :x@,' read i w h x y <<< "$dimensions"
+fi
+
+X=`expr ${w} - 120 - 10`
+Y=`expr ${h} - 120 - 20`
+
+thingmenu -g 120x120 \
+    "pop a terminal"    "urxvt" \
+    "browse the web"    "dwb" \
+    "view a pdf"        "mupdf || zathura" \
+    "play a game"       "steam" \
+    "restart 2bwm"      "pkill 2bwm; 2bwm" 2> /dev/null

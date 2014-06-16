@@ -1,0 +1,70 @@
+#!/bin/sh
+#
+# z3bra - (c) wtfpl 2014
+# Update git hashes in a Pkgfile
+
+PKGMK_ARCH=64 source /etc/pkgmk.conf
+
+echo_color () {
+    tput bold
+    tput setaf $1
+    shift
+
+    echo "$@"
+
+    tput sgr0
+}
+
+# check wether we're in a port directory or not
+if [ ! -f Pkgfile ]; then
+    echo_color 1 "Not in a port directory"
+    exit 1
+fi
+
+port_dir=$PWD
+
+get_version() {
+    cd $PKGMK_SOURCE_DIR
+
+    # enter the git directory
+    if cd $name; then
+
+        # get the git hash and its minimized version
+        version=$(git log --oneline --format="git-%h" | sed 1q)
+        sversion=$(git log --oneline --format="%H" | sed 1q)
+    else
+        echo_color 1 'Cannot check git sources'
+        exit 1
+    fi
+}
+
+update_pkgfile() {
+    cd $port_dir
+
+    # update version
+    sed -i "s/^version=.*$/version=$version/" Pkgfile
+
+    # update sversion if it exists
+    if grep 'sversion' Pkgfile; then
+        sed -i "s/^sversion=.*$/sversion=$sversion/" Pkgfile
+
+    # create it otherwise
+    else
+        sed -i "/version/a\
+        sversion=$sversion" Pkgfile
+    fi
+}
+
+main() {
+
+    # we'll need the $name var later
+    source Pkgfile
+
+    # get the git hashes
+    get_version
+
+    # update Pkgfile accordingly
+    update_pkgfile
+}
+
+main

@@ -1,0 +1,43 @@
+#!/bin/bash
+
+host=gavroche
+user=willy
+port=22
+path=/srv/http/raw.z3bra.org
+base=raw.z3bra.org
+
+file=''
+tmpfile=/tmp/paste
+
+echo '' > $tmpfile
+
+if [[ $# -eq 0 ]]; then
+    while read line; do
+        echo ${line} >> $tmpfile
+    done
+
+    file=$tmpfile
+else
+    file=$@
+fi
+
+for f in $file; do
+    case $(file $f| grep -o -E 'text|image') in
+        text)
+            ext=plain
+            ;;
+        image)
+            ext=img
+            ;;
+        *)
+            ext=null
+            ;;
+    esac
+
+    name=$(echo $f| sed 's@^.*/\([a-zA-Z0-9.]*\)$@\1@')
+
+    url="http://${base}/${ext}/${name}"
+    scp $file ${host}:${path}/$ext/$name && echo $url
+done
+
+[[ -f $tmpfile ]] && rm $tmpfile

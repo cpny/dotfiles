@@ -1,0 +1,17 @@
+#!/bin/sh
+
+case "$1" in
+    left)
+        xrandr --output VGA1 --primary --auto --output LVDS1 --auto --right-of VGA1;;
+    right)
+        xrandr --output VGA1 --primary --auto --output LVDS1 --auto --left-of VGA1;;
+    dup)
+        xrandr --output VGA1 --same-as LVDS1 --output LVDS1 --primary;;
+    screen)
+        xrandr --output VGA1 --primary --auto --output LVDS1 --off;;
+    laptop)
+        xrandr --output LVDS1 --primary --auto --output VGA1 --off;;
+    list)
+        xrandr | grep '\<connected\>' | cut -d\  -f1;;
+    *) echo `basename $0` '{left|right|dup|screen|laptop|list}';;
+esac

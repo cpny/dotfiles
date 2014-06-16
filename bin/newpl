@@ -1,0 +1,53 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use File::Basename;
+$0 = basename $0;
+
+# error reporting function
+sub err {
+    my $code = shift;
+    my $mesg = shift;
+    warn "$0: $mesg\n";
+    exit($code) if $code != 0;
+}
+
+# template for new perl script
+my $template = <<TEMPLATE;
+#!/usr/bin/perl
+use strict; use warnings;
+use File::Basename;
+\$0 = basename \$0;
+
+# error reporting function
+sub err {
+    my \$code = shift;
+    my \$mesg = shift;
+    warn "\$0: \$mesg\\n";
+    exit(\$code) if \$code != 0;
+}
+
+TEMPLATE
+
+# check for single argument
+if (@ARGV == 1) {
+    # filename is first argument
+    my $file = $ARGV[0];
+    # check for file
+    unless (-f $file) {
+        # try to open file
+        open FILE, ">", $file
+            or die "$0: error: cannot open file: $!\n";
+        # write template to file
+        print FILE $template;
+        close FILE;
+        # make executable
+        chmod 0744, $file;
+        # run vim
+        exec "vim $file";
+    } else {
+        die "$0: file exists\n";
+    }
+} else {
+    die "$0: error: takes exactly one argument\n";
+}

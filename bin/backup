@@ -1,0 +1,43 @@
+#!/bin/bash
+
+##
+## Backup the content of a directory in an other directory
+#
+
+usage() {
+    cat << EOF_HELP
+    usage : $0 <source> [<destination>]
+
+    DESCRIPTION :
+        Backup <source> in /backup/<destination>.
+
+    OUTPUT :
+        The backup will be an archive named :
+        <source>-<username>-<date>.tar.gz
+
+    PARAMETERS :
+        <source>      : What you want to backup
+        <destination> : (optional) use another directory than /backup/<username>
+        --help        : Display this help
+EOF_HELP
+}
+
+if [[ $# -lt 1 || "$1" == "--help" || "$1" == "-h" ]]; then
+    usage
+    exit 0
+fi
+
+DIR=$1
+DEST=/backup
+# NAME=$(echo $DIR | sed 's/\/$//' | sed 's/.*\///')
+NAME=$(echo $DIR | sed 's#.*/\([^?./]*\)/$#\1#')
+
+if [ -n "$2" ]; then
+    DEST=$DEST/$2
+else
+    DEST=$DEST/$USER
+fi
+
+# Create a compressed archive with the same permission that the original directory
+# untar with `tar xzf <archive>.tar.gz`
+tar cpzf $DEST/$USER-$NAME-$(date +%y-%m-%d).tar.gz $DIR

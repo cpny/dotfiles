@@ -1,0 +1,48 @@
+#!/usr/bin/bash
+
+## ii directory
+ROOT=~/var/irc
+
+# irc parameters
+NICK='ptii'
+SERV='irc.freenode.net'
+PORT='6667'
+CHAN='z3bra'
+
+usage() {
+    cat << EOF
+    usage: chat [-h] [-s server] [-c channel] [-n nickname]
+EOF
+}
+
+[[ -n "$1" ]] && CHAN=$1
+[[ -n "$2" ]] && NICK=$2
+
+while getopts ":hn:c:s:" opt; do
+    case $opt in
+        h) usage; exit 0;;
+        n) NICK=$OPTARG;;
+        s) SERV=$OPTARG;;
+        c) CHAN=$OPTARG;;
+        ?) echo "Invalid option -$OPTARG"; exit 1;;
+        *) usage; exit 1;;
+    esac
+done
+
+# commands launched on startup
+JOIN="/j $CHAN hai $CHAN!"
+
+# spawn ii
+ii -i $ROOT -n $NICK -s $SERV -p $PORT &
+
+while [ ! -p $ROOT/$SERV/in ];do echo awaiting connection to $SERV...; sleep 2; done
+
+# launch commands at start
+echo "$JOIN" > $ROOT/$SERV/in
+
+while [ ! -p $ROOT/$SERV/$CHAN/in ];do echo Starting chatting with $CHAN; sleep 1; done
+
+cd $ROOT/$SERV/$CHAN
+tmux new-session -d -s irc 'tail -f out' \; split-window -l 1 'ptii' \; attach
+
+rm -rf $ROOT/$SERV

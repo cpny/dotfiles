@@ -1,0 +1,23 @@
+#!/bin/sh
+
+q3df='http://ws.q3df.org/maps/downloads'
+map=$1
+
+W="\033[1;37m"
+R="\033[1;31m"
+G="\033[1;32m"
+N="\033[0m"
+
+echo -ne "Fetching map ${W}${map}.pk3 ${N}.. "
+
+curl -s "${q3df}/${map}.pk3" > /tmp/q3map.zip
+
+if unzip -p /tmp/q3map.zip >/dev/null 2>&1 ; then
+    mv /tmp/q3map.zip ~/.q3a/baseq3/${map}.pk3
+    echo -e "[${G}DONE${N}]"
+else
+    echo -e "[${R}FAIL${N}]"
+    rm /tmp/q3map.zip
+fi
+
+exit 0

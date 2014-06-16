@@ -1,0 +1,61 @@
+#!/bin/sh
+#
+# beep once per level. does not beep when charging
+
+# get battery name
+BATN=$(ls /sys/class/power_supply/ | grep BAT)
+
+# exit if no battery available
+test -z "$BATN" && exit 1
+
+# get battery level and status (charging or not)
+BATC=`cat /sys/class/power_supply/$BATN/capacity`
+BATS=`cat /sys/class/power_supply/$BATN/status`
+
+# Run this if sound is enabled
+sbell () { 
+    IFS=' %' read level state <<< `~/bin/volume`
+
+    ~/bin/volume unmute
+    ~/bin/volume '80%'
+
+    beep -f 1000 -l 200 -D 50
+
+    case $state in
+        on) ~/bin/volume unmute;;
+        off) ~/bin/volume mute;;
+    esac
+
+    # reset volume to its previous state
+    ~/bin/volume "${level}%"
+}
+
+# and this in case of no sound enabled
+vbell () {
+    $HOME/bin/popup "%{F#d43f10}battery $BATC%%"
+}
+
+usage () {
+    echo "usage: `basename $0` [<low> <critical> <dead>]"
+    exit 1
+}
+
+level () {
+    echo "$BATC%"
+    exit 0
+}
+
+# If no argurments, return battery level
+test "$#" -eq 0 && level
+
+# if less than 3 args, learn how to use, dumb
+test "$#" -lt 3 && usage
+
+# if battery is charging, do not alert user
+test "$BATS" = "Charging" && exit
+
+test $BATC -lt $1 && sbell # one bip for level <low>
+test $BATC -lt $2 && sbell # two bip for level <critical>
+test $BATC -lt $3 && sbell # battery is <dead>, bip 3 times
+
+test $BATC -lt $1 && vbell # popup a notification under <low> level
