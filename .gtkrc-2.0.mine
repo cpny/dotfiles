@@ -1,0 +1,41 @@
+
+gtk-font-name="Termsyn 12"
+
+gtk-button-images=0
+gtk-menu-images=0
+gtk-enable-event-sounds=1
+gtk-enable-input-feedback-sounds=1
+gtk-xft-antialias=1
+gtk-xft-hinting=1
+gtk-xft-hintstyle="hintslight"
+gtk-xft-rgba="rgb"
+
+style "default-style"
+{
+	xthickness = 3
+	ythickness = 3
+
+	GtkRange::slider-width = 15
+
+	text[NORMAL]   = "#cdaa7d"
+	text[ACTIVE]   = "#cdaa7d"
+	text[PRELIGHT] = "#cdaa7d"
+	
+	bg[ACTIVE]   = "#151515"
+	bg[SELECTED] = "#151515"
+	bg[PRELIGHT] = "#151515"
+
+	base[NORMAL]   = "#151515"
+	base[ACTIVE]   = "#151515"
+	base[PRELIGHT] = "#151515"
+
+	bg[NORMAL] 	= "#151515"
+	bg[INSENSITIVE] = "#151515"
+	fg[INSENSITIVE] = "#cdaa7d"
+	fg[NORMAL] 	= "#cdaa7d"
+	fg[ACTIVE] 	= "#cdaa7d"
+	fg[SELECTED]	= "#cdaa7d"
+	}
+
+class "GtkWidget" style "default-style"
+
