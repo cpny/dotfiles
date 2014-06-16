@@ -1,0 +1,123 @@
+#
+# bspwm hotkeys
+#
+
+# Exit BSPWM
+alt +shift + e
+    pkill conky; pkill panel; bspc quit
+
+# Close current window
+alt + shift + q
+    bspc window -c
+
+# Cycle desktop layouts tiled | monocle (fullscreen)
+super + t
+    bspc desktop -l next
+
+# Balance desktop
+super + b
+    bspc desktop -B
+
+# Toggle floating
+alt + shift + {space,f}
+    bspc window -t {floating,fullscreen}
+
+# Rotate windows 90 degrees
+super + Tab
+    bspc desktop -R 90
+
+# Swap current window with last
+super + apostrophe
+    bspc window -s last
+
+# Cycle windows based on age
+super + {o,i}
+    bspc control --record-history off; \
+    bspc window {older,newer} -f; \
+    bspc control --record-history on
+
+super + y
+    bspc window -w last.manual
+
+# Swap current window with the biggest
+super + m
+    bspc window -s biggest
+
+# Focus/Move around
+alt + {_,shift + }{Left,Down,Up,Right}
+    bspc window -{f,s} {left,down,up,right}
+
+# Cycle windows
+super + {_,shift + }c
+    bspc window -f {next,prev}
+
+# Circulate the leaves of the tree of the selected desktop.
+super + {comma,period}
+    bspc desktop -C {backward,forward}
+
+super + bracket{left,right}
+    bspc desktop -f {prev,next}
+
+super + ctrl + {Left,Down,Up,Right}
+    bspc window -p {left,down,up,right}
+
+super + ctrl + {_,shift + }space
+    bspc {window -p cancel,desktop -c}
+
+super + alt + {Left,Down,Up,Right}
+    bspc window -e {left,down,up,right} push
+
+super + alt + shift + {Right,Up,Down,Left}
+    bspc window -e {right,up,down,left} pull
+
+super + ctrl + {1-9}
+    bspc window -r 0.{1-9}
+
+alt + {_,shift + }{1-9,0}
+    bspc {desktop -f,window -d} ^{1-9,10}
+
+~button1
+    bspc pointer -g focus
+
+super + button{1-3}
+    bspc pointer -g {move,resize_side,resize_corner}
+
+super + !button{1-3}
+    bspc pointer -t %i %i
+
+super + @button{1-3}
+    bspc pointer -u
+
+#
+# wm independent hotkeys
+#
+alt + Return
+    urxvt
+
+alt + d
+    .config/bspwm/panel/scripts/spawn_dmenu
+
+alt + F1
+    ~/.config/bspwm/panel/scripts/toggle_conky net
+
+alt + F2
+    ~/.config/bspwm/panel/scripts/toggle_conky disk
+
+alt + F3
+    ~/.config/bspwm/panel/scripts/toggle_conky mem
+
+alt + F4
+    ~/.config/bspwm/panel/scripts/toggle_conky cpu
+
+alt + F5
+    ~/.config/bspwm/panel/scripts/toggle_conky temp
+
+alt + F6
+    ~/.config/bspwm/panel/scripts/toggle_conky mpd
+
+alt + F7
+    ~/.config/bspwm/panel/scripts/toggle_conky cal
+
+# make sxhkd reload its configuration files:
+super + Escape
+    pkill -USR1 -x sxhkd

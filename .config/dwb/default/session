@@ -1,0 +1,56 @@
+g:default
+-54 http://pastebin.com/raw.php?i=ycdrLkeJ 
+-53 https://www.google.pt/?gws_rd=ssl dwb
+-52 https://www.google.pt/?gws_rd=ssl#q=dwb+reddit+css dwb
+-51 https://github.com/jdost/config-gui/find/master File
+-50 https://github.com/jdost jdost
+-49 https://github.com/jdost/config jdost/config
+-48 https://github.com/jdost/config/tree/master/dwb config/dwb
+-47 https://github.com/jdost/config/blob/master/dwb/settings config/dwb/settings
+-46 https://www.google.pt/?gws_rd=ssl reddit.css
+-45 https://www.google.pt/?gws_rd=ssl#q=reddit.css+dwb reddit.css
+-44 https://github.com/GGLucas/configs/find/master File
+-43 https://github.com/GGLucas/configs/blob/master/.config/dwb/userstyles/reddit.css configs/.config/dwb/userstyles/reddit.css
+-42 http://www.reddit.com/r/unixporn Unix
+-41 http://www.reddit.com/r/unixporn/comments/284hop/crux2b_so_were_using_light_themes_now/ [crux][2b]
+-40 http://sprunge.us/PgVG 
+-39 https://www.google.pt/?gws_rd=ssl dwb
+-38 https://www.google.pt/?gws_rd=ssl#q=dwb+vs+pentadactyl dwb
+-37 http://www.reddit.com/r/unixporn Unix
+-36 http://www.reddit.com/r/unixporn/comments/284hop/crux2b_so_were_using_light_themes_now/ [crux][2b]
+-35 https://duckduckgo.com/ DuckDuckGo
+-34 https://www.google.pt/?gws_rd=ssl Google
+-33 http://www.reddit.com/r/unixporn Unix
+-32 https://www.google.pt/?gws_rd=ssl dwb
+-31 https://www.google.pt/?gws_rd=ssl#q=dwb+hide+bottom+bar dwb
+-30 https://wiki.archlinux.org/index.php/Dwb dwb
+-29 https://wiki.archlinux.org/index.php/Dwb#Search_engines_search_for_undefined dwb
+-28 http://www.reddit.com/ reddit:
+-27 http://www.reddit.com/r/unixporn Unix
+-26 http://www.reddit.com/r/unixporn/comments/284hop/crux2b_so_were_using_light_themes_now/ [crux][2b]
+-25 http://www.reddit.com/user/z-brah overview
+-24 http://www.reddit.com/message/inbox/ messages:
+-23 http://www.reddit.com/message/messages/ messages:
+-22 http://www.reddit.com/message/inbox/ messages:
+-21 http://www.reddit.com/user/plinkypaus/ overview
+-20 https://ssl.reddit.com/login?dest=http%3A%2F%2Fwww.reddit.com%2Fmessage%2Finbox%2F reddit.com:
+-19 http://google.ppt/ Error
+-18 https://www.google.pt/?gws_rd=ssl z3bra
+-17 https://www.google.pt/?gws_rd=ssl#q=z3bra+gif+2bwm z3bra
+-16 https://www.google.pt/search?q=z3bra+gif+2bwm&tbm=isch&imgil=a638FYYR3ojOIM%253A%253Bhttps%253A%252F%252Fencrypted-tbn0.gstatic.com%252Fimages%253Fq%253Dtbn%253AANd9GcQ5YKsvKmp17KorvfgbSzVa2Ttuq1O-GmQuk56TS5M9tJt7mgxclw%253B1366%253B768%253BbeIiJCRzpz_NiM%253Bhttp%25253A%25252F%25252Fwww.reddit.com%25252Fr%25252Funixporn%25252Fcomments%25252F1vuda6%25252Farch2bwm_got_a_few_bugs_in_my_computer_please_help%25252F&source=iu&usg=__CChkkNllDfq5ozotam6-BZ4I7MQ%3D&sa=X&ei=Dz6eU_GUGdCz0QXIuoBw&ved=0CE0Q9QEwBQ&biw=1094&bih=778#facrc=_&imgdii=_&imgrc=THCr8rp5E0tPsM%253A%3Bttxr1lkqgx4GPM%3Bhttp%253A%252F%252Fi.imgur.com%252FBVH7ytp.gif%253F1%3Bhttps%253A%252F%252Fgithub.com%252Fumbrae%252Freddit-top-2.5-million%252Fblob%252Fmaster%252Fdata%252Funixporn.csv%3B1366%3B768 z3bra
+-15 https://www.google.pt/?gws_rd=ssl 2bwm
+-14 https://www.google.pt/?gws_rd=ssl#q=2bwm+don't+overlap+panel venam
+-13 https://www.google.pt/?gws_rd=ssl#q=venam+github venam
+-12 https://github.com/venam venam
+-11 https://github.com/venam?tab=repositories venam
+-10 https://github.com/venam/DOT venam/DOT
+-9 https://github.com/venam/DOT/tree/master/Rice DOT/Rice
+-8 https://github.com/venam/DOT/blob/master/Rice/2bwm.config.h DOT/Rice/2bwm.config.h
+-7 https://raw.githubusercontent.com/venam/DOT/master/Rice/2bwm.config.h 
+-6 http://www.reddit.com/ reddit: the front page of the internet
+-5 http://www.reddit.com/r/mildlyinteresting/ For things that are, you know, mildly interesting.
+-4 http://www.reddit.com/r/unixporn Unix porn. Because screenshots > sex
+-3 http://www.reddit.com/r/unixporn/?count=25&after=t3_280ucl Unix porn. Because screenshots > sex
+-2 http://www.reddit.com/r/unixporn/comments/27zho6/arch_bspwm_retro_macintosh_look/ [Arch] [bspwm] Retro Macintosh look : unixporn
+-1 http://www.reddit.com/r/unixporn/ Unix porn. Because screenshots > sex
+0|0 http://www.reddit.com/r/all/ all subreddits

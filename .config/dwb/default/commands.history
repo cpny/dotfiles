@@ -1,0 +1,34 @@
+set adblocker-filterlist /home/cpn/.config/dwb/adblock_lists
+back
+open reddit.com/r/unixporn
+open reddit.com
+b
+plugins
+[dwb:plugins]
+dwb:plugins
+duck
+open dwb vs pentadactyl
+open duckduckgo.com
+forward
+xb
+open google.pt
+ct
+close
+gs
+GS
+gn
+open duckduckgo
+open startpage.com
+help
+define searchengine
+searchengine
+qa
+open pentadactyl vs dwb
+open google
+open dwb stylesheet
+exit
+s arch linux
+write arch linux
+type arch linux
+arch linux
+adblock plus

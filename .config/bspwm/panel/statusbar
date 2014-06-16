@@ -1,0 +1,14 @@
+#!/bin/bash
+
+source $(dirname $0)/panel_colors
+
+fcpu() {
+	gcpubar -s graph
+}
+
+sep=`echo "^fg($PANEL_COLOR_ICON)|"`
+
+while true ; do
+    echo "S $(./applet_vol)  $sep  $(./applet_cpu)  $sep  $(./applet_ram)  $sep  $(./applet_wifi)  $sep  $(./applet_date)  $sep  $(./applet_time)"
+	sleep 0.3
+done

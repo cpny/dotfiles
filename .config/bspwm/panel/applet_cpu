@@ -1,0 +1,16 @@
+#!/bin/bash
+
+source $(dirname $0)/panel_colors
+
+CPUP=`echo $( ps aux | awk {'sum+=$3;print sum'} | tail -n 1 ) / 8 | bc -l | cut -c 1-4`
+CPUTEMP=`sensors | grep "Core 0" | awk '{print $3}'`
+CPUFREQ=`echo $( lscpu | grep "CPU MHz" | awk '{print $3}') / 1000 | bc -l | cut -c 1-4`
+CPUBARUSED=`echo $CPUP / 2 | bc -l | awk '{print int($1+0.5)}'`
+
+cpubar() { #width, height = 50px, 2px
+	echo "^fg($PANEL_COLOR_TEXT)^r(${CPUBARUSED}x2)^fg(darkgrey)^r($(( 50 - $CPUBARUSED ))x2)"
+}
+
+ICON="^i($PANEL_ICON_DIR/cpu.xbm)"
+#echo "^ca(1,./popup_cpu)^fg($PANEL_COLOR_ICON)$ICON^ca() ^fg($PANEL_COLOR_TEXT)CPU: $CPUP%"
+echo "^fg($PANEL_COLOR_ICON)$ICON $(cpubar) ^fg($PANEL_COLOR_TEXT)$CPUP%  ${CPUFREQ}GHz  $CPUTEMP"

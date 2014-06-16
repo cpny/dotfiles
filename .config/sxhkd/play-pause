@@ -1,0 +1,9 @@
+#!/bin/bash
+
+STATE=`mpc | tail -n 2 | head -n 1 | awk 'END{gsub(/\[|\]|%/,""); print $1}'`
+
+if [ $STATE == "playing" ]; then
+	mpc pause
+else
+	mpc play
+fi

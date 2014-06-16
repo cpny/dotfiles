@@ -1,0 +1,37 @@
+#!/bin/bash
+
+source $(dirname 0)/panel_colors
+
+ARTIST=`mpc -f %artist% | head -n 1`
+TITLE=`mpc -f %title% | head -n 1`
+TIME=`echo "[$(mpc | tail -n 2 | head -n 1 | awk '{print $3}')]"`
+POSITION=`mpc | tail -n 2 | head -n 1 | awk '{print $3}' | sed 's/\/[^\/]*$//'`
+ENDTIME=`mpc | tail -n 2 | head -n 1 | awk '{print $3}' | sed 's/^[^/]*\///'`
+NOTE="^i($PANEL_ICON_DIR/note.xbm)"
+STATE=`mpc | tail -n 2 | head -n 1 | awk 'END{gsub(/\[|\]|%/,""); print $1}'`
+TIMEP=`mpc | head -n 2 | tail -n 1 | awk 'END{gsub(/\(|\)|%/,""); print $4}'`
+TIMEBARUSED=`echo $TIMEP / 2 | bc -l | awk '{print int($1+0.5)}'`
+TIMEBARUSED100=`echo $TIMEP | awk '{print int($1+0.5)}'`
+icon="/home/cpn/.config/bspwm/panel/icons"
+timebar() {
+	echo "^fg($PANEL_COLOR_ICON)$POSITION ^fg($PANEL_COLOR_TEXT)^r(${TIMEBARUSED100}x2)^fg(darkgrey)^r($(( 100 - $TIMEBARUSED100 ))x2) ^fg($PANEL_COLOR_ICON)$ENDTIME"
+}
+
+if [ "$(pidof /usr/bin/python2 /usr/bin/mopidy)" ] ; then  
+  case "$STATE" in
+    playing)
+      ICON="^i($PANEL_ICON_DIR/pause.xbm)"
+	  STATUS=`echo "^fg($PANEL_COLOR_ICON)$NOTE ^ca(1,mpc pause)$ICON^ca() ^ca(1,mpc prev)^i($PANEL_ICON_DIR/prev.xbm)^ca()  ^fg($PANEL_COLOR_TEXT)$TITLE $(timebar)  ^ca(1, mpc next)^i($PANEL_ICON_DIR/next.xbm)^ca()  $NOTE"`
+      ;;
+    paused)
+      ICON="^i($PANEL_ICON_DIR/play.xbm)"
+	  STATUS=`echo "^fg($PANEL_COLOR_ICON)$NOTE ^ca(1,mpc play)$ICON^ca() ^fg($PANEL_COLOR_TEXT)$TITLE $(timebar) $NOTE"`
+      ;;
+    *)
+	  STATUS=""
+      ;;
+  esac
+else
+  STATUS=""
+fi
+echo "$STATUS"

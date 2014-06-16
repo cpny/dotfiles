@@ -1,0 +1,16 @@
+#!/bin/bash
+
+source $(dirname $0)/panel_colors
+
+RAM=`free -m | grep buffers/cache | awk '{print $3}'`
+RAMT=`free -m | grep Mem: | awk '{print $2}'`
+RAMP=`echo $RAM/$RAMT*100 | bc -l | cut -c 1-4`
+RAMBARUSED=`echo $RAMP / 2 | bc -l | awk '{print int($1+0.5)}'`
+
+rambar() { #width, height = 50px, 2px
+	echo "^fg($PANEL_COLOR_TEXT)^r(${RAMBARUSED}x2)^fg(darkgrey)^r($(( 50 - $RAMBARUSED ))x2)"
+}
+
+ICON="^i($PANEL_ICON_DIR/mem.xbm)"
+#echo "^ca(1, ./popup_ram)^fg($PANEL_COLOR_ICON)$ICON^ca() $(rambar)^fg($PANEL_COLOR_TEXT) $RAMP% ($RAM MB)"
+echo "^fg($PANEL_COLOR_ICON)$ICON $(rambar)^fg($PANEL_COLOR_TEXT) $RAMP% ($RAM MB)"
